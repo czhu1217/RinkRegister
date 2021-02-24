@@ -1,0 +1,63 @@
+from selenium import webdriver
+from webdriver_manager.chrome import ChromeDriverManager
+from selenium.webdriver import ActionChains
+from selenium.webdriver.common.keys import Keys
+import time
+# Initiate the browser
+browser  = webdriver.Chrome(ChromeDriverManager().install())
+# Open the Website
+browser.get('https://econnect.markham.ca/Activities/ActivitiesAdvSearch.asp')
+element = browser.find_element_by_id("adv-search")
+element.click()
+keywordSearch = browser.find_element_by_name("KeywordSearch")
+keywordSearch.send_keys("skating")
+search = browser.find_element_by_xpath("//*[@id='adv-search-buttons']/span[2]/span/input")
+search.click()
+# browser.get('https://econnect.markham.ca/Activities/ActivitiesAdvSearch.asp#top')
+browser.maximize_window()
+time.sleep(1)
+course = browser.find_element_by_xpath("//*[@id='activity-1-9121']/span[1]")
+course.click()
+# javaScript = "nNext.click();"
+# browser.execute_script(javaScript)
+ad = browser.find_element_by_link_text("Next")
+browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+ad.click()
+ad2 = browser.find_element_by_link_text("Next")
+browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+time.sleep(0.5)
+ad2.click()
+ad2 = browser.find_element_by_link_text("Next")
+browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+# time.sleep(1)
+ad2.click()
+time.sleep(0.5)
+add = browser.find_element_by_xpath("//*[@id='activity-course-row']/td[9]/table/tbody/tr[1]/td/span/a")
+add.click()
+# browser.close()
+with open('./data.txt', 'r') as file:
+    d1 = file.readline().replace('\n', '')
+    d2 = file.readline().replace('\n', '')
+
+time.sleep(0.5)
+usrname = browser.find_element_by_xpath("//*[@id='ClientBarcode']")
+usrname.send_keys(d1)
+pwd = browser.find_element_by_xpath("//*[@id='AccountPIN']")
+pwd.send_keys(d2)
+pwd.send_keys(Keys.ENTER)
+time.sleep(0.5)
+dropdown = browser.find_element_by_xpath("//*[@id='Item0']/tbody/tr/td[1]/table/tbody/tr[1]/td[1]/div/span[2]/select")
+dropdown.click()
+clientName = browser.find_element_by_xpath("//*[@id='Item0']/tbody/tr/td[1]/table/tbody/tr[1]/td[1]/div/span[2]/select/option[3]")
+clientName.click()
+time.sleep(0.5)
+checkout = browser.find_element_by_xpath("//*[@id='RegistrationDetails']/div[3]/div/span/span[1]/input")
+checkout.click()
+browser.execute_script("window.scrollTo(0,document.body.scrollHeight)")
+time.sleep(0.5)
+complete = browser.find_element_by_xpath("//*[@id='completeTransactionButton']")
+complete.click()
+time.sleep(0.5)
+accept = browser.find_element_by_xpath("//*[@id='program-liability-waiver']/form/div[3]/span[1]/input")
+accept.click()
+
